@@ -555,7 +555,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Fit is supposed to be idempotent!</span>
         <span class="c1"># But not if we use share_mode.</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">AutoSklearnRegressor</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="n">feat_type</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">AutoSklearnRegressor</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span>
+                                                     <span class="n">feat_type</span><span class="o">=</span><span class="n">feat_type</span><span class="p">,</span>
+                                                     <span class="n">dataset_name</span><span class="o">=</span><span class="n">dataset_name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AutoSklearnRegressor.predict"><a class="viewcode-back" href="../../api.html#autosklearn.classification.AutoSklearnRegressor.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Predict regression target for X.</span>
@@ -680,8 +682,7 @@
             <span class="n">dataset_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_automl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">task</span><span class="o">=</span><span class="n">REGRESSION</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span>
-                                <span class="n">loss</span><span class="o">=</span><span class="n">loss</span><span class="p">,</span> <span class="n">feat_type</span><span class="o">=</span><span class="n">feat_type</span><span class="p">,</span>
-                                <span class="n">dataset_name</span><span class="o">=</span><span class="n">dataset_name</span><span class="p">)</span>
+                                <span class="n">feat_type</span><span class="o">=</span><span class="n">feat_type</span><span class="p">,</span> <span class="n">dataset_name</span><span class="o">=</span><span class="n">dataset_name</span><span class="p">)</span>
 </pre></div>
 
     </div>

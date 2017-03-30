@@ -248,11 +248,21 @@ output_dir will always be deleted</p>
 <code class="docutils literal"><span class="pre">delete_tmp_folder_after_terminate</span></code> and
 <code class="docutils literal"><span class="pre">delete_output_folder_after_terminate</span></code> are set to False.</p>
 </div></blockquote>
-<p><strong>disable_evaluator_output: bool, optional (False)</strong></p>
+<p><strong>disable_evaluator_output: bool or list, optional (False)</strong></p>
 <blockquote class="last">
-<div><p>Disable model and prediction output. Cannot be used together with
-ensemble building. predict() cannot be used when setting this
-flag to True.</p>
+<div><p>If True, disable model and prediction output. Cannot be used
+together with ensemble building. predict() cannot be used when
+setting this True. Can also be used as a list to pass more
+fine-grained information on what to save. Allowed elements in the
+list are:
+* &#8216;y_optimization&#8217; : do not save the predictions for the</p>
+<blockquote>
+<div><p>optimization/validation set, which would later on be used to build
+an ensemble.</p>
+</div></blockquote>
+<ul class="simple">
+<li>&#8216;model&#8217; : do not save any model files</li>
+</ul>
 </div></blockquote>
 </td>
 </tr>
@@ -564,11 +574,21 @@ output_dir will always be deleted</p>
 <code class="docutils literal"><span class="pre">delete_tmp_folder_after_terminate</span></code> and
 <code class="docutils literal"><span class="pre">delete_output_folder_after_terminate</span></code> are set to False.</p>
 </div></blockquote>
-<p><strong>disable_evaluator_output: bool, optional (False)</strong></p>
+<p><strong>disable_evaluator_output: bool or list, optional (False)</strong></p>
 <blockquote class="last">
-<div><p>Disable model and prediction output. Cannot be used together with
-ensemble building. predict() cannot be used when setting this
-flag to True.</p>
+<div><p>If True, disable model and prediction output. Cannot be used
+together with ensemble building. predict() cannot be used when
+setting this True. Can also be used as a list to pass more
+fine-grained information on what to save. Allowed elements in the
+list are:
+* &#8216;y_optimization&#8217; : do not save the predictions for the</p>
+<blockquote>
+<div><p>optimization/validation set, which would later on be used to build
+an ensemble.</p>
+</div></blockquote>
+<ul class="simple">
+<li>&#8216;model&#8217; : do not save any model files</li>
+</ul>
 </div></blockquote>
 </td>
 </tr>

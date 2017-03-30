@@ -328,10 +328,16 @@
 <span class="sd">            ``delete_tmp_folder_after_terminate`` and</span>
 <span class="sd">            ``delete_output_folder_after_terminate`` are set to False.</span>
 
-<span class="sd">        disable_evaluator_output: bool, optional (False)</span>
-<span class="sd">            Disable model and prediction output. Cannot be used together with</span>
-<span class="sd">            ensemble building. predict() cannot be used when setting this</span>
-<span class="sd">            flag to True.</span>
+<span class="sd">        disable_evaluator_output: bool or list, optional (False)</span>
+<span class="sd">            If True, disable model and prediction output. Cannot be used</span>
+<span class="sd">            together with ensemble building. predict() cannot be used when</span>
+<span class="sd">            setting this True. Can also be used as a list to pass more</span>
+<span class="sd">            fine-grained information on what to save. Allowed elements in the</span>
+<span class="sd">            list are:</span>
+<span class="sd">            * &#39;y_optimization&#39; : do not save the predictions for the</span>
+<span class="sd">              optimization/validation set, which would later on be used to build</span>
+<span class="sd">              an ensemble.</span>
+<span class="sd">            * &#39;model&#39; : do not save any model files</span>
 
 <span class="sd">        Attributes</span>
 <span class="sd">        ----------</span>

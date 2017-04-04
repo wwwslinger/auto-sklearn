@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
@@ -122,15 +122,18 @@
 <span></span><span class="c1"># -*- encoding: utf-8 -*-</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">six</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
-<span class="kn">import</span> <span class="nn">autosklearn.automl</span>
-<span class="kn">from</span> <span class="nn">autosklearn.constants</span> <span class="k">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">autosklearn.util.backend</span> <span class="k">import</span> <span class="n">create</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics.classification</span> <span class="k">import</span> <span class="n">type_of_target</span>
 <span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="k">import</span> <span class="n">BaseEstimator</span>
 <span class="kn">import</span> <span class="nn">sklearn.utils</span>
 <span class="kn">import</span> <span class="nn">scipy.sparse</span>
+
+<span class="kn">import</span> <span class="nn">autosklearn.automl</span>
+<span class="kn">from</span> <span class="nn">autosklearn.metrics</span> <span class="k">import</span> <span class="n">f1_macro</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">,</span> <span class="n">r2</span>
+<span class="kn">from</span> <span class="nn">autosklearn.constants</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">autosklearn.util.backend</span> <span class="k">import</span> <span class="n">create</span>
+
 
 
 <span class="k">class</span> <span class="nc">AutoMLDecorator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -447,7 +450,7 @@
         <span class="k">return</span> <span class="n">AutoMLClassifier</span><span class="p">(</span><span class="n">automl</span><span class="p">)</span>
 
 <div class="viewcode-block" id="AutoSklearnClassifier.fit"><a class="viewcode-back" href="../../api.html#autosklearn.classification.AutoSklearnClassifier.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
-            <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;acc_metric&#39;</span><span class="p">,</span>
+            <span class="n">metric</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">feat_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">dataset_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fit *auto-sklearn* to given training set (X, y).</span>
@@ -461,11 +464,9 @@
 <span class="sd">        y : array-like, shape = [n_samples] or [n_samples, n_outputs]</span>
 <span class="sd">            The target classes.</span>
 
-<span class="sd">        metric : str, optional (default=&#39;acc_metric&#39;)</span>
-<span class="sd">            The metric to optimize for. Can be one of: [&#39;acc_metric&#39;,</span>
-<span class="sd">            &#39;auc_metric&#39;, &#39;bac_metric&#39;, &#39;f1_metric&#39;, &#39;pac_metric&#39;]. A</span>
-<span class="sd">            description of the metrics can be found in `the paper describing</span>
-<span class="sd">            the AutoML Challenge.</span>
+<span class="sd">        metric : callable, optional (default=&#39;acc_metric&#39;)</span>
+<span class="sd">            An instance of ``autosklearn.metrics.Scorer.</span>
+
 <span class="sd">        feat_type : list, optional (default=None)</span>
 <span class="sd">            List of str of `len(X.shape[1])` describing the attribute type.</span>
 <span class="sd">            Possible types are `Categorical` and `Numerical`. `Categorical`</span>
@@ -525,7 +526,7 @@
         <span class="k">return</span> <span class="n">AutoMLRegressor</span><span class="p">(</span><span class="n">automl</span><span class="p">)</span>
 
 <div class="viewcode-block" id="AutoSklearnRegressor.fit"><a class="viewcode-back" href="../../api.html#autosklearn.classification.AutoSklearnRegressor.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
-            <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;r2_metric&#39;</span><span class="p">,</span>
+            <span class="n">metric</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">feat_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">dataset_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fit *autosklearn* to given training set (X, y).</span>
@@ -591,26 +592,33 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">AutoMLClassifier</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">automl</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
-            <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;acc_metric&#39;</span><span class="p">,</span>
+            <span class="n">metric</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">loss</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">feat_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">dataset_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="p">):</span>
-        <span class="c1"># From sklearn.tree.DecisionTreeClassifier</span>
+            <span class="n">dataset_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">X</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">check_array</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">accept_sparse</span><span class="o">=</span><span class="s2">&quot;csr&quot;</span><span class="p">,</span>
                                       <span class="n">force_all_finite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">check_array</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">ensure_2d</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">issparse</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
             <span class="n">X</span><span class="o">.</span><span class="n">sort_indices</span><span class="p">()</span>
 
-        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_target_classes</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">y_task</span> <span class="o">=</span> <span class="n">type_of_target</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">task_mapping</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;multilabel-indicator&#39;</span><span class="p">:</span> <span class="n">MULTILABEL_CLASSIFICATION</span><span class="p">,</span>
+                        <span class="s1">&#39;multiclass&#39;</span><span class="p">:</span> <span class="n">MULTICLASS_CLASSIFICATION</span><span class="p">,</span>
+                        <span class="s1">&#39;binary&#39;</span><span class="p">:</span> <span class="n">BINARY_CLASSIFICATION</span><span class="p">}</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_outputs</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">task</span> <span class="o">=</span> <span class="n">MULTILABEL_CLASSIFICATION</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_classes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="n">task</span> <span class="o">=</span> <span class="n">BINARY_CLASSIFICATION</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">task_mapping</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">y_task</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">task</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Cannot work on data of type </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">y_task</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">metric</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">task</span> <span class="o">==</span> <span class="n">MULTILABEL_CLASSIFICATION</span><span class="p">:</span>
+                <span class="n">metric</span> <span class="o">=</span> <span class="n">f1_macro</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">task</span> <span class="o">=</span> <span class="n">MULTICLASS_CLASSIFICATION</span>
+                <span class="n">metric</span><span class="o">=</span><span class="n">accuracy</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_target_classes</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_automl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="n">feat_type</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">)</span>
 
@@ -641,19 +649,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_classes</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_n_classes</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">six</span><span class="o">.</span><span class="n">moves</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_outputs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_outputs</span><span class="p">):</span>
             <span class="n">classes_k</span><span class="p">,</span> <span class="n">y</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y</span><span class="p">[:,</span> <span class="n">k</span><span class="p">],</span> <span class="n">return_inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_classes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">classes_k</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_n_classes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">classes_k</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_n_classes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_classes</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
 
-        <span class="c1"># TODO: fix metafeatures calculation to allow this!</span>
         <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">y</span>
-
 
     <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="n">predicted_probabilities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_automl</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
@@ -663,14 +669,12 @@
 
             <span class="k">return</span> <span class="n">predicted_classes</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">argmax_v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">,</span> <span class="n">otypes</span><span class="o">=</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span>
-            <span class="n">predicted_indexes</span> <span class="o">=</span> <span class="n">argmax_v</span><span class="p">(</span><span class="n">predicted_probabilities</span><span class="p">)</span>
-            <span class="c1">#predicted_indexes = np.argmax(predicted_probabilities, axis=1)</span>
+            <span class="n">predicted_indices</span> <span class="o">=</span> <span class="p">(</span><span class="n">predicted_probabilities</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
             <span class="n">n_samples</span> <span class="o">=</span> <span class="n">predicted_probabilities</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">predicted_classes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_outputs</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
+            <span class="n">predicted_classes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_outputs</span><span class="p">))</span>
 
-            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">six</span><span class="o">.</span><span class="n">moves</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_outputs</span><span class="p">):</span>
-                <span class="n">output_predicted_indexes</span> <span class="o">=</span> <span class="n">predicted_indexes</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_outputs</span><span class="p">):</span>
+                <span class="n">output_predicted_indexes</span> <span class="o">=</span> <span class="n">predicted_indices</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
                 <span class="n">predicted_classes</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_classes</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">output_predicted_indexes</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="n">predicted_classes</span>
@@ -682,11 +686,12 @@
 <span class="k">class</span> <span class="nc">AutoMLRegressor</span><span class="p">(</span><span class="n">AutoMLDecorator</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
-            <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;r2_metric&#39;</span><span class="p">,</span>
-            <span class="n">loss</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">metric</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">feat_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">dataset_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="p">):</span>
+        <span class="k">if</span> <span class="n">metric</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">metric</span> <span class="o">=</span> <span class="n">r2</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_automl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">task</span><span class="o">=</span><span class="n">REGRESSION</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span>
                                 <span class="n">feat_type</span><span class="o">=</span><span class="n">feat_type</span><span class="p">,</span> <span class="n">dataset_name</span><span class="o">=</span><span class="n">dataset_name</span><span class="p">)</span>
 </pre></div>
@@ -706,7 +711,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2017, Matthias Feurer, Aaron Klein, Katharina Eggensperger, Jost Tobias Springenberg, Manuel Blum, Frank Hutter.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.3.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.5.<br/>
     </p>
   </div>
 </footer>

@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
@@ -285,7 +285,7 @@ an ensemble.</p>
 </table>
 <dl class="method">
 <dt id="autosklearn.classification.AutoSklearnClassifier.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>metric='acc_metric'</em>, <em>feat_type=None</em>, <em>dataset_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autosklearn/estimators.html#AutoSklearnClassifier.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#autosklearn.classification.AutoSklearnClassifier.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>metric=None</em>, <em>feat_type=None</em>, <em>dataset_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autosklearn/estimators.html#AutoSklearnClassifier.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#autosklearn.classification.AutoSklearnClassifier.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit <em>auto-sklearn</em> to given training set (X, y).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -299,12 +299,9 @@ an ensemble.</p>
 <blockquote>
 <div><p>The target classes.</p>
 </div></blockquote>
-<p><strong>metric</strong> : str, optional (default=&#8217;acc_metric&#8217;)</p>
+<p><strong>metric</strong> : callable, optional (default=&#8217;acc_metric&#8217;)</p>
 <blockquote>
-<div><p>The metric to optimize for. Can be one of: [&#8216;acc_metric&#8217;,
-&#8216;auc_metric&#8217;, &#8216;bac_metric&#8217;, &#8216;f1_metric&#8217;, &#8216;pac_metric&#8217;]. A
-description of the metrics can be found in <a href="#id3"><span class="problematic" id="id4">`</span></a>the paper describing
-the AutoML Challenge.</p>
+<div><p>An instance of <a href="#id3"><span class="problematic" id="id4">``</span></a>autosklearn.metrics.Scorer.</p>
 </div></blockquote>
 <p><strong>feat_type</strong> : list, optional (default=None)</p>
 <blockquote>
@@ -611,7 +608,7 @@ an ensemble.</p>
 </table>
 <dl class="method">
 <dt id="autosklearn.regression.AutoSklearnRegressor.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>metric='r2_metric'</em>, <em>feat_type=None</em>, <em>dataset_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autosklearn/estimators.html#AutoSklearnRegressor.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#autosklearn.regression.AutoSklearnRegressor.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>metric=None</em>, <em>feat_type=None</em>, <em>dataset_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autosklearn/estimators.html#AutoSklearnRegressor.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#autosklearn.regression.AutoSklearnRegressor.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit <em>autosklearn</em> to given training set (X, y).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -944,7 +941,7 @@ underlying scikit-learn model and returns the transformed array.</p>
     </p>
     <p>
         &copy; Copyright 2014-2017, Matthias Feurer, Aaron Klein, Katharina Eggensperger, Jost Tobias Springenberg, Manuel Blum, Frank Hutter.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.3.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.5.<br/>
     </p>
   </div>
 </footer>

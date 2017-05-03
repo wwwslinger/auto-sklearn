@@ -271,15 +271,12 @@ an ensemble.</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="4%" />
-<col width="96%" />
+<col width="6%" />
+<col width="94%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>grid_scores_</td>
-<td>(list of named tuples) Contains scores for all parameter combinations in param_grid. Each entry corresponds to one parameter setting. Each named tuple has the attributes:  * <code class="docutils literal"><span class="pre">parameters</span></code>, a dict of parameter settings * <code class="docutils literal"><span class="pre">mean_validation_score</span></code>, the mean score over the cross-validation folds * <code class="docutils literal"><span class="pre">cv_validation_scores</span></code>, the list of scores for each fold</td>
-</tr>
-<tr class="row-even"><td>cv_results_</td>
-<td>(dict of numpy (masked) ndarrays) A dict with keys as column headers and values as columns, that can be imported into a pandas <code class="docutils literal"><span class="pre">DataFrame</span></code>.  This attribute is a backward port to already support the advanced output of scikit-learn 0.18. Not all keys returned by scikit-learn are supported yet.</td>
+<tr class="row-odd"><td>cv_results_</td>
+<td>(dict of numpy (masked) ndarrays) A dict with keys as column headers and values as columns, that can be imported into a pandas <code class="docutils literal"><span class="pre">DataFrame</span></code>.  Not all keys returned by scikit-learn are supported yet.</td>
 </tr>
 </tbody>
 </table>
@@ -331,7 +328,7 @@ md5 hash of the dataset.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>deep: boolean, optional</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>deep</strong> : boolean, optional</p>
 <blockquote>
 <div><p>If True, will return the parameters for this estimator and
 contained subobjects that are estimators.</p>
@@ -426,7 +423,7 @@ only using 66% of the training data to fit the final model.</p>
 <code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="headerlink" href="#autosklearn.classification.AutoSklearnClassifier.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the parameters of this estimator.</p>
 <p>The method works on simple estimators as well as on nested objects
-(such as pipelines). The former have parameters of the form
+(such as pipelines). The latter have parameters of the form
 <code class="docutils literal"><span class="pre">&lt;component&gt;__&lt;parameter&gt;</span></code> so that it&#8217;s possible to update each
 component of a nested object.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -594,15 +591,12 @@ an ensemble.</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="4%" />
-<col width="96%" />
+<col width="6%" />
+<col width="94%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>grid_scores_</td>
-<td>(list of named tuples) Contains scores for all parameter combinations in param_grid. Each entry corresponds to one parameter setting. Each named tuple has the attributes:  * <code class="docutils literal"><span class="pre">parameters</span></code>, a dict of parameter settings * <code class="docutils literal"><span class="pre">mean_validation_score</span></code>, the mean score over the cross-validation folds * <code class="docutils literal"><span class="pre">cv_validation_scores</span></code>, the list of scores for each fold</td>
-</tr>
-<tr class="row-even"><td>cv_results_</td>
-<td>(dict of numpy (masked) ndarrays) A dict with keys as column headers and values as columns, that can be imported into a pandas <code class="docutils literal"><span class="pre">DataFrame</span></code>.  This attribute is a backward port to already support the advanced output of scikit-learn 0.18. Not all keys returned by scikit-learn are supported yet.</td>
+<tr class="row-odd"><td>cv_results_</td>
+<td>(dict of numpy (masked) ndarrays) A dict with keys as column headers and values as columns, that can be imported into a pandas <code class="docutils literal"><span class="pre">DataFrame</span></code>.  Not all keys returned by scikit-learn are supported yet.</td>
 </tr>
 </tbody>
 </table>
@@ -656,7 +650,7 @@ md5 hash of the dataset.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>deep: boolean, optional</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>deep</strong> : boolean, optional</p>
 <blockquote>
 <div><p>If True, will return the parameters for this estimator and
 contained subobjects that are estimators.</p>
@@ -730,7 +724,7 @@ only using 66% of the training data to fit the final model.</p>
 <code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="headerlink" href="#autosklearn.regression.AutoSklearnRegressor.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the parameters of this estimator.</p>
 <p>The method works on simple estimators as well as on nested objects
-(such as pipelines). The former have parameters of the form
+(such as pipelines). The latter have parameters of the form
 <code class="docutils literal"><span class="pre">&lt;component&gt;__&lt;parameter&gt;</span></code> so that it&#8217;s possible to update each
 component of a nested object.</p>
 <table class="docutils field-list" frame="void" rules="none">

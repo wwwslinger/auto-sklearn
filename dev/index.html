@@ -149,14 +149,14 @@ the <a class="reference external" href="http://papers.nips.cc/paper/5872-efficie
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">autosklearn.classification</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sklearn.cross_validation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sklearn.model_selection</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sklearn.datasets</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sklearn.metrics</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">digits</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">load_digits</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">digits</span><span class="o">.</span><span class="n">data</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">digits</span><span class="o">.</span><span class="n">target</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> \
-<span class="go">        sklearn.cross_validation.train_test_split(X, y, random_state=1)</span>
+<span class="go">        sklearn.model_selection.train_test_split(X, y, random_state=1)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">automl</span> <span class="o">=</span> <span class="n">autosklearn</span><span class="o">.</span><span class="n">classification</span><span class="o">.</span><span class="n">AutoSklearnClassifier</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">automl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y_hat</span> <span class="o">=</span> <span class="n">automl</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>

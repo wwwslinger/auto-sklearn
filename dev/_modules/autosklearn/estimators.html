@@ -202,10 +202,6 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_automl</span><span class="o">.</span><span class="n">show_models</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">grid_scores_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_automl</span><span class="o">.</span><span class="n">grid_scores_</span>
-
-    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">cv_results_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_automl</span><span class="o">.</span><span class="n">cv_results_</span>
 
@@ -348,23 +344,12 @@
 
 <span class="sd">        Attributes</span>
 <span class="sd">        ----------</span>
-<span class="sd">        grid_scores\_ : list of named tuples</span>
-<span class="sd">            Contains scores for all parameter combinations in param_grid.</span>
-<span class="sd">            Each entry corresponds to one parameter setting.</span>
-<span class="sd">            Each named tuple has the attributes:</span>
-
-<span class="sd">            * ``parameters``, a dict of parameter settings</span>
-<span class="sd">            * ``mean_validation_score``, the mean score over the</span>
-<span class="sd">              cross-validation folds</span>
-<span class="sd">            * ``cv_validation_scores``, the list of scores for each fold</span>
 
 <span class="sd">        cv_results\_ : dict of numpy (masked) ndarrays</span>
 <span class="sd">            A dict with keys as column headers and values as columns, that can be</span>
 <span class="sd">            imported into a pandas ``DataFrame``.</span>
 
-<span class="sd">            This attribute is a backward port to already support the advanced</span>
-<span class="sd">            output of scikit-learn 0.18. Not all keys returned by scikit-learn</span>
-<span class="sd">            are supported yet.</span>
+<span class="sd">            Not all keys returned by scikit-learn are supported yet.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">time_left_for_this_task</span> <span class="o">=</span> <span class="n">time_left_for_this_task</span>

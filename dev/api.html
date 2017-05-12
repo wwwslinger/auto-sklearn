@@ -73,9 +73,11 @@
           <ul class="nav navbar-nav">
             
                 <li><a href="index.html">Start</a></li>
+                <li><a href="releases.html">Releases</a></li>
+                <li><a href="installation.html">Installation</a></li>
+                <li><a href="manual.html">Manual</a></li>
                 <li><a href="#">API</a></li>
                 <li><a href="extending.html">Extending</a></li>
-                <li><a href="manual.html">Manual</a></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -118,6 +120,14 @@
 <li><a class="reference internal" href="#main-modules">Main modules</a><ul>
 <li><a class="reference internal" href="#classification">Classification</a></li>
 <li><a class="reference internal" href="#regression">Regression</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#metrics">Metrics</a><ul>
+<li><a class="reference internal" href="#built-in-metrics">Built-in Metrics</a><ul>
+<li><a class="reference internal" href="#id2">Classification</a></li>
+<li><a class="reference internal" href="#id3">Regression</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#extension-interfaces">Extension Interfaces</a></li>
@@ -166,8 +176,8 @@ should start from scratch.</p>
 </div></blockquote>
 <p><strong>ensemble_size</strong> : int, optional (default=50)</p>
 <blockquote>
-<div><p>Number of models added to the ensemble built by <a href="#id1"><span class="problematic" id="id2">`</span></a>Ensemble
-selection from libraries of models. Models are drawn with
+<div><p>Number of models added to the ensemble built by <em>Ensemble
+selection from libraries of models</em>. Models are drawn with
 replacement.</p>
 </div></blockquote>
 <p><strong>ensemble_nbest</strong> : int, optional (default=50)</p>
@@ -249,19 +259,29 @@ output_dir will always be deleted</p>
 <code class="docutils literal"><span class="pre">delete_output_folder_after_terminate</span></code> are set to False.</p>
 </div></blockquote>
 <p><strong>disable_evaluator_output: bool or list, optional (False)</strong></p>
-<blockquote class="last">
+<blockquote>
 <div><p>If True, disable model and prediction output. Cannot be used
-together with ensemble building. predict() cannot be used when
+together with ensemble building. <code class="docutils literal"><span class="pre">predict()</span></code> cannot be used when
 setting this True. Can also be used as a list to pass more
 fine-grained information on what to save. Allowed elements in the
-list are:
-* &#8216;y_optimization&#8217; : do not save the predictions for the</p>
-<blockquote>
-<div><p>optimization/validation set, which would later on be used to build
-an ensemble.</p>
-</div></blockquote>
+list are:</p>
 <ul class="simple">
-<li>&#8216;model&#8217; : do not save any model files</li>
+<li><code class="docutils literal"><span class="pre">'y_optimization'</span></code> : do not save the predictions for the
+optimization/validation set, which would later on be used to build
+an ensemble.</li>
+<li><code class="docutils literal"><span class="pre">'model'</span></code> : do not save any model files</li>
+</ul>
+</div></blockquote>
+<p><strong>configuration_mode</strong> : <code class="docutils literal"><span class="pre">SMAC</span></code> or <code class="docutils literal"><span class="pre">ROAR</span></code></p>
+<blockquote class="last">
+<div><p>Defines the configuration mode as described in the paper
+<a class="reference external" href="http://aad.informatik.uni-freiburg.de/papers/11-LION5-SMAC.pdf">Sequential Model-Based Optimization for General Algorithm
+Configuration</a>:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">SMAC</span></code> (default): Sequential Model-based Algorithm
+Configuration, which is a Bayesian optimization algorithm</li>
+<li><code class="docutils literal"><span class="pre">ROAR</span></code>: Random Online Aggressive Racing, which is basically
+random search</li>
 </ul>
 </div></blockquote>
 </td>
@@ -298,18 +318,76 @@ an ensemble.</p>
 </div></blockquote>
 <p><strong>metric</strong> : callable, optional (default=&#8217;acc_metric&#8217;)</p>
 <blockquote>
-<div><p>An instance of <a href="#id3"><span class="problematic" id="id4">``</span></a>autosklearn.metrics.Scorer.</p>
+<div><p>An instance of <code class="xref py py-class docutils literal"><span class="pre">autosklearn.metrics.Scorer</span></code> as created by
+<a class="reference internal" href="#autosklearn.metrics.make_scorer" title="autosklearn.metrics.make_scorer"><code class="xref py py-meth docutils literal"><span class="pre">autosklearn.metrics.make_scorer()</span></code></a>. These are the <a class="reference internal" href="#built-in-metrics">Built-in
+Metrics</a>.</p>
 </div></blockquote>
 <p><strong>feat_type</strong> : list, optional (default=None)</p>
 <blockquote>
 <div><p>List of str of <cite>len(X.shape[1])</cite> describing the attribute type.
 Possible types are <cite>Categorical</cite> and <cite>Numerical</cite>. <cite>Categorical</cite>
-attributes will be automatically One-Hot encoded.</p>
+attributes will be automatically One-Hot encoded. The values
+used for a categorical attribute must be integers, obtainde for
+example by <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html">sklearn.preprocessing.LabelEncoder</a>.</p>
 </div></blockquote>
 <p><strong>dataset_name</strong> : str, optional (default=None)</p>
 <blockquote>
 <div><p>Create nicer output. If None, a string will be determined by the
 md5 hash of the dataset.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">self</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="autosklearn.classification.AutoSklearnClassifier.fit_ensemble">
+<code class="descname">fit_ensemble</code><span class="sig-paren">(</span><em>y</em>, <em>task=None</em>, <em>metric=None</em>, <em>precision='32'</em>, <em>dataset_name=None</em>, <em>ensemble_nbest=None</em>, <em>ensemble_size=None</em><span class="sig-paren">)</span><a class="headerlink" href="#autosklearn.classification.AutoSklearnClassifier.fit_ensemble" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit an ensemble to models trained during an optimization process.</p>
+<p>All parameters are <code class="docutils literal"><span class="pre">None</span></code> by default. If no other value is given,
+the default values which were set in a call to <code class="docutils literal"><span class="pre">fit()</span></code> are used.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>y</strong> : array-like</p>
+<blockquote>
+<div><p>Target values.</p>
+</div></blockquote>
+<p><strong>task</strong> : int</p>
+<blockquote>
+<div><p>A constant from the module <code class="docutils literal"><span class="pre">autosklearn.constants</span></code>. Determines
+the task type (binary classification, multiclass classification,
+multilabel classification or regression).</p>
+</div></blockquote>
+<p><strong>metric</strong> : callable, optional (default=&#8217;acc_metric&#8217;)</p>
+<blockquote>
+<div><p>An instance of <code class="xref py py-class docutils literal"><span class="pre">autosklearn.metrics.Scorer</span></code> as created by
+<a class="reference internal" href="#autosklearn.metrics.make_scorer" title="autosklearn.metrics.make_scorer"><code class="xref py py-meth docutils literal"><span class="pre">autosklearn.metrics.make_scorer()</span></code></a>. These are the <a class="reference internal" href="#built-in-metrics">Built-in
+Metrics</a>.</p>
+</div></blockquote>
+<p><strong>precision</strong> : str</p>
+<blockquote>
+<div><p>Numeric precision used when loading ensemble data. Can be either
+<code class="docutils literal"><span class="pre">'16'</span></code>, <code class="docutils literal"><span class="pre">'32'</span></code> or <code class="docutils literal"><span class="pre">'64'</span></code>.</p>
+</div></blockquote>
+<p><strong>dataset_name</strong> : str</p>
+<blockquote>
+<div><p>Name of the current data set.</p>
+</div></blockquote>
+<p><strong>ensemble_nbest</strong> : int</p>
+<blockquote>
+<div><p>Determines how many models should be considered from the ensemble
+building. This is inspired by a concept called library pruning
+introduced in <cite>Getting Most out of Ensemble Selection</cite>.</p>
+</div></blockquote>
+<p><strong>ensemble_size</strong> : int</p>
+<blockquote>
+<div><p>Size of the ensemble built by <cite>Ensomble Selection</cite>.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -347,7 +425,7 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="autosklearn.classification.AutoSklearnClassifier.predict">
-<code class="descname">predict</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autosklearn/estimators.html#AutoSklearnClassifier.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#autosklearn.classification.AutoSklearnClassifier.predict" title="Permalink to this definition">¶</a></dt>
+<code class="descname">predict</code><span class="sig-paren">(</span><em>X</em>, <em>batch_size=None</em>, <em>n_jobs=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autosklearn/estimators.html#AutoSklearnClassifier.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#autosklearn.classification.AutoSklearnClassifier.predict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Predict classes for X.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -368,7 +446,7 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="autosklearn.classification.AutoSklearnClassifier.predict_proba">
-<code class="descname">predict_proba</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autosklearn/estimators.html#AutoSklearnClassifier.predict_proba"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#autosklearn.classification.AutoSklearnClassifier.predict_proba" title="Permalink to this definition">¶</a></dt>
+<code class="descname">predict_proba</code><span class="sig-paren">(</span><em>X</em>, <em>batch_size=None</em>, <em>n_jobs=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autosklearn/estimators.html#AutoSklearnClassifier.predict_proba"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#autosklearn.classification.AutoSklearnClassifier.predict_proba" title="Permalink to this definition">¶</a></dt>
 <dd><p>Predict probabilities of classes for all samples X.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -439,7 +517,7 @@ component of a nested object.</p>
 <dl class="method">
 <dt id="autosklearn.classification.AutoSklearnClassifier.show_models">
 <code class="descname">show_models</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#autosklearn.classification.AutoSklearnClassifier.show_models" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a representation of the final ensemble found by auto-sklearn</p>
+<dd><p>Return a representation of the final ensemble found by auto-sklearn.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -486,8 +564,8 @@ should start from scratch.</p>
 </div></blockquote>
 <p><strong>ensemble_size</strong> : int, optional (default=50)</p>
 <blockquote>
-<div><p>Number of models added to the ensemble built by <a href="#id5"><span class="problematic" id="id6">`</span></a>Ensemble
-selection from libraries of models. Models are drawn with
+<div><p>Number of models added to the ensemble built by <em>Ensemble
+selection from libraries of models</em>. Models are drawn with
 replacement.</p>
 </div></blockquote>
 <p><strong>ensemble_nbest</strong> : int, optional (default=50)</p>
@@ -569,19 +647,29 @@ output_dir will always be deleted</p>
 <code class="docutils literal"><span class="pre">delete_output_folder_after_terminate</span></code> are set to False.</p>
 </div></blockquote>
 <p><strong>disable_evaluator_output: bool or list, optional (False)</strong></p>
-<blockquote class="last">
+<blockquote>
 <div><p>If True, disable model and prediction output. Cannot be used
-together with ensemble building. predict() cannot be used when
+together with ensemble building. <code class="docutils literal"><span class="pre">predict()</span></code> cannot be used when
 setting this True. Can also be used as a list to pass more
 fine-grained information on what to save. Allowed elements in the
-list are:
-* &#8216;y_optimization&#8217; : do not save the predictions for the</p>
-<blockquote>
-<div><p>optimization/validation set, which would later on be used to build
-an ensemble.</p>
-</div></blockquote>
+list are:</p>
 <ul class="simple">
-<li>&#8216;model&#8217; : do not save any model files</li>
+<li><code class="docutils literal"><span class="pre">'y_optimization'</span></code> : do not save the predictions for the
+optimization/validation set, which would later on be used to build
+an ensemble.</li>
+<li><code class="docutils literal"><span class="pre">'model'</span></code> : do not save any model files</li>
+</ul>
+</div></blockquote>
+<p><strong>configuration_mode</strong> : <code class="docutils literal"><span class="pre">SMAC</span></code> or <code class="docutils literal"><span class="pre">ROAR</span></code></p>
+<blockquote class="last">
+<div><p>Defines the configuration mode as described in the paper
+<a class="reference external" href="http://aad.informatik.uni-freiburg.de/papers/11-LION5-SMAC.pdf">Sequential Model-Based Optimization for General Algorithm
+Configuration</a>:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">SMAC</span></code> (default): Sequential Model-based Algorithm
+Configuration, which is a Bayesian optimization algorithm</li>
+<li><code class="docutils literal"><span class="pre">ROAR</span></code>: Random Online Aggressive Racing, which is basically
+random search</li>
 </ul>
 </div></blockquote>
 </td>
@@ -643,6 +731,60 @@ md5 hash of the dataset.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="autosklearn.regression.AutoSklearnRegressor.fit_ensemble">
+<code class="descname">fit_ensemble</code><span class="sig-paren">(</span><em>y</em>, <em>task=None</em>, <em>metric=None</em>, <em>precision='32'</em>, <em>dataset_name=None</em>, <em>ensemble_nbest=None</em>, <em>ensemble_size=None</em><span class="sig-paren">)</span><a class="headerlink" href="#autosklearn.regression.AutoSklearnRegressor.fit_ensemble" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit an ensemble to models trained during an optimization process.</p>
+<p>All parameters are <code class="docutils literal"><span class="pre">None</span></code> by default. If no other value is given,
+the default values which were set in a call to <code class="docutils literal"><span class="pre">fit()</span></code> are used.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>y</strong> : array-like</p>
+<blockquote>
+<div><p>Target values.</p>
+</div></blockquote>
+<p><strong>task</strong> : int</p>
+<blockquote>
+<div><p>A constant from the module <code class="docutils literal"><span class="pre">autosklearn.constants</span></code>. Determines
+the task type (binary classification, multiclass classification,
+multilabel classification or regression).</p>
+</div></blockquote>
+<p><strong>metric</strong> : callable, optional (default=&#8217;acc_metric&#8217;)</p>
+<blockquote>
+<div><p>An instance of <code class="xref py py-class docutils literal"><span class="pre">autosklearn.metrics.Scorer</span></code> as created by
+<a class="reference internal" href="#autosklearn.metrics.make_scorer" title="autosklearn.metrics.make_scorer"><code class="xref py py-meth docutils literal"><span class="pre">autosklearn.metrics.make_scorer()</span></code></a>. These are the <a class="reference internal" href="#built-in-metrics">Built-in
+Metrics</a>.</p>
+</div></blockquote>
+<p><strong>precision</strong> : str</p>
+<blockquote>
+<div><p>Numeric precision used when loading ensemble data. Can be either
+<code class="docutils literal"><span class="pre">'16'</span></code>, <code class="docutils literal"><span class="pre">'32'</span></code> or <code class="docutils literal"><span class="pre">'64'</span></code>.</p>
+</div></blockquote>
+<p><strong>dataset_name</strong> : str</p>
+<blockquote>
+<div><p>Name of the current data set.</p>
+</div></blockquote>
+<p><strong>ensemble_nbest</strong> : int</p>
+<blockquote>
+<div><p>Determines how many models should be considered from the ensemble
+building. This is inspired by a concept called library pruning
+introduced in <cite>Getting Most out of Ensemble Selection</cite>.</p>
+</div></blockquote>
+<p><strong>ensemble_size</strong> : int</p>
+<blockquote>
+<div><p>Size of the ensemble built by <cite>Ensomble Selection</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">self</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="autosklearn.regression.AutoSklearnRegressor.get_params">
 <code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="headerlink" href="#autosklearn.regression.AutoSklearnRegressor.get_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get parameters for this estimator.</p>
@@ -669,7 +811,7 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="autosklearn.regression.AutoSklearnRegressor.predict">
-<code class="descname">predict</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autosklearn/estimators.html#AutoSklearnRegressor.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#autosklearn.regression.AutoSklearnRegressor.predict" title="Permalink to this definition">¶</a></dt>
+<code class="descname">predict</code><span class="sig-paren">(</span><em>X</em>, <em>batch_size=None</em>, <em>n_jobs=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autosklearn/estimators.html#AutoSklearnRegressor.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#autosklearn.regression.AutoSklearnRegressor.predict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Predict regression target for X.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -740,7 +882,7 @@ component of a nested object.</p>
 <dl class="method">
 <dt id="autosklearn.regression.AutoSklearnRegressor.show_models">
 <code class="descname">show_models</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#autosklearn.regression.AutoSklearnRegressor.show_models" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a representation of the final ensemble found by auto-sklearn</p>
+<dd><p>Return a representation of the final ensemble found by auto-sklearn.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -753,6 +895,190 @@ component of a nested object.</p>
 
 </dd></dl>
 
+</div>
+</div>
+<div class="section" id="metrics">
+<h2>Metrics<a class="headerlink" href="#metrics" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="autosklearn.metrics.make_scorer">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">make_scorer</code><span class="sig-paren">(</span><em>name</em>, <em>score_func</em>, <em>greater_is_better=True</em>, <em>needs_proba=False</em>, <em>needs_threshold=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autosklearn/metrics.html#make_scorer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#autosklearn.metrics.make_scorer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a scorer from a performance metric or loss function.</p>
+<p>Factory inspired by scikit-learn which wraps scikit-learn scoring functions
+to be used in auto-sklearn.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>score_func</strong> : callable</p>
+<blockquote>
+<div><p>Score function (or loss function) with signature
+<code class="docutils literal"><span class="pre">score_func(y,</span> <span class="pre">y_pred,</span> <span class="pre">**kwargs)</span></code>.</p>
+</div></blockquote>
+<p><strong>greater_is_better</strong> : boolean, default=True</p>
+<blockquote>
+<div><p>Whether score_func is a score function (default), meaning high is good,
+or a loss function, meaning low is good. In the latter case, the
+scorer object will sign-flip the outcome of the score_func.</p>
+</div></blockquote>
+<p><strong>needs_proba</strong> : boolean, default=False</p>
+<blockquote>
+<div><p>Whether score_func requires predict_proba to get probability estimates
+out of a classifier.</p>
+</div></blockquote>
+<p><strong>needs_threshold</strong> : boolean, default=False</p>
+<blockquote>
+<div><p>Whether score_func takes a continuous decision certainty.
+This only works for binary classification.</p>
+</div></blockquote>
+<p><strong>**kwargs</strong> : additional arguments</p>
+<blockquote>
+<div><p>Additional parameters to be passed to score_func.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>scorer</strong> : callable</p>
+<blockquote class="last">
+<div><p>Callable object that returns a scalar score; greater is better.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="section" id="built-in-metrics">
+<h3>Built-in Metrics<a class="headerlink" href="#built-in-metrics" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id2">
+<h4>Classification<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<dl class="attribute">
+<dt id="autosklearn.metrics.accuracy">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">accuracy</code><a class="headerlink" href="#autosklearn.metrics.accuracy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.balanced_accuracy">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">balanced_accuracy</code><a class="headerlink" href="#autosklearn.metrics.balanced_accuracy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.f1">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">f1</code><a class="headerlink" href="#autosklearn.metrics.f1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.f1_macro">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">f1_macro</code><a class="headerlink" href="#autosklearn.metrics.f1_macro" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.f1_micro">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">f1_micro</code><a class="headerlink" href="#autosklearn.metrics.f1_micro" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.f1_samples">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">f1_samples</code><a class="headerlink" href="#autosklearn.metrics.f1_samples" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.f1_weighted">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">f1_weighted</code><a class="headerlink" href="#autosklearn.metrics.f1_weighted" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.roc_auc">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">roc_auc</code><a class="headerlink" href="#autosklearn.metrics.roc_auc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.precision">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">precision</code><a class="headerlink" href="#autosklearn.metrics.precision" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.precision_macro">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">precision_macro</code><a class="headerlink" href="#autosklearn.metrics.precision_macro" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.precision_micro">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">precision_micro</code><a class="headerlink" href="#autosklearn.metrics.precision_micro" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.precision_samples">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">precision_samples</code><a class="headerlink" href="#autosklearn.metrics.precision_samples" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.precision_weighted">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">precision_weighted</code><a class="headerlink" href="#autosklearn.metrics.precision_weighted" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.average_precision">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">average_precision</code><a class="headerlink" href="#autosklearn.metrics.average_precision" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.recall">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">recall</code><a class="headerlink" href="#autosklearn.metrics.recall" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.recall_macro">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">recall_macro</code><a class="headerlink" href="#autosklearn.metrics.recall_macro" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.recall_micro">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">recall_micro</code><a class="headerlink" href="#autosklearn.metrics.recall_micro" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.recall_samples">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">recall_samples</code><a class="headerlink" href="#autosklearn.metrics.recall_samples" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.recall_weighted">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">recall_weighted</code><a class="headerlink" href="#autosklearn.metrics.recall_weighted" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.log_loss">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">log_loss</code><a class="headerlink" href="#autosklearn.metrics.log_loss" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.pac_score">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">pac_score</code><a class="headerlink" href="#autosklearn.metrics.pac_score" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="id3">
+<h4>Regression<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<dl class="attribute">
+<dt id="autosklearn.metrics.r2">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">r2</code><a class="headerlink" href="#autosklearn.metrics.r2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.mean_squared_error">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">mean_squared_error</code><a class="headerlink" href="#autosklearn.metrics.mean_squared_error" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.mean_absolute_error">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">mean_absolute_error</code><a class="headerlink" href="#autosklearn.metrics.mean_absolute_error" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="autosklearn.metrics.median_absolute_error">
+<code class="descclassname">autosklearn.metrics.</code><code class="descname">median_absolute_error</code><a class="headerlink" href="#autosklearn.metrics.median_absolute_error" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
 </div>
 </div>
 <div class="section" id="extension-interfaces">

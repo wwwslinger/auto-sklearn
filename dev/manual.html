@@ -73,9 +73,11 @@
           <ul class="nav navbar-nav">
             
                 <li><a href="index.html">Start</a></li>
+                <li><a href="releases.html">Releases</a></li>
+                <li><a href="installation.html">Installation</a></li>
+                <li><a href="#">Manual</a></li>
                 <li><a href="api.html">API</a></li>
                 <li><a href="extending.html">Extending</a></li>
-                <li><a href="#">Manual</a></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -115,10 +117,16 @@
       <div class="col-md-3">
         <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
 <li><a class="reference internal" href="#">Manual</a><ul>
-<li><a class="reference internal" href="#restrict-searchspace">Restrict Searchspace</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+<li><a class="reference internal" href="#time-and-memory-limits">Time and memory limits</a></li>
+<li><a class="reference internal" href="#restricting-the-searchspace">Restricting the Searchspace</a><ul>
+<li><a class="reference internal" href="#turning-of-preprocessing">Turning of preprocessing</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#resampling-strategies">Resampling strategies</a></li>
 <li><a class="reference internal" href="#parallel-computation">Parallel computation</a></li>
 <li><a class="reference internal" href="#model-persistence">Model persistence</a></li>
+<li><a class="reference internal" href="#vanilla-auto-sklearn">Vanilla auto-sklearn</a></li>
 </ul>
 </li>
 </ul>
@@ -131,16 +139,45 @@
 <span id="id1"></span><h1>Manual<a class="headerlink" href="#manual" title="Permalink to this headline">¶</a></h1>
 <p>This manual shows how to use several aspects of auto-sklearn. It either
 references the examples where possible or explains certain configurations.</p>
-<div class="section" id="restrict-searchspace">
-<h2>Restrict Searchspace<a class="headerlink" href="#restrict-searchspace" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p><em>auto-sklearn</em> comes with the following examples which demonstrate several
+aspects of its usage:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/automl/auto-sklearn/blob/master/example/example_holdout.py">Holdout</a></li>
+<li><a class="reference external" href="https://github.com/automl/auto-sklearn/blob/master/example/example_crossvalidation.py">Cross-validation</a></li>
+<li><a class="reference external" href="https://github.com/automl/auto-sklearn/blob/master/example/example_parallel.py">Parallel usage</a></li>
+<li><a class="reference external" href="https://github.com/automl/auto-sklearn/blob/master/example/example_sequential.py">Sequential usage</a></li>
+<li><a class="reference external" href="https://github.com/automl/auto-sklearn/blob/master/example/example_regression.py">Regression</a></li>
+</ul>
+</div>
+<div class="section" id="time-and-memory-limits">
+<h2>Time and memory limits<a class="headerlink" href="#time-and-memory-limits" title="Permalink to this headline">¶</a></h2>
+<p>A crucial feature of <em>auto-sklearn</em> is limiting the resources (memory and
+time) which the scikit-learn algorithms are allowed to use. Especially for
+large datasets, on which algorithms can take several hours and make the
+machine swap, it is important to stop the evaluations after some time in order
+to make progress in a reasonable amount of time. Setting the resource limits
+is therefore a tradeoff between optimization time and the number of models
+that can be tested.</p>
+<p>While <em>auto-sklearn</em> alleviates manual hyperparameter tuning, the user still
+has to set memory and time limits. For most datasets a memory limit of 3GB or
+6GB as found on most modern computers is sufficient. For the time limits it
+is harder to give clear guidelines. If possible, a good default is a total
+time limit of one day, and a time limit of 30 minutes for a single run.</p>
+<p>Further guidelines can be found in
+<a class="reference external" href="https://github.com/automl/auto-sklearn/issues/142">auto-sklearn/issues/142</a>.</p>
+</div>
+<div class="section" id="restricting-the-searchspace">
+<h2>Restricting the Searchspace<a class="headerlink" href="#restricting-the-searchspace" title="Permalink to this headline">¶</a></h2>
 <p>Instead of using all available estimators, it is possible to restrict
 <em>auto-sklearn</em>&#8216;s searchspace. The following shows an example of how to exclude
 all preprocessing methods and restrict the configuration space to only
 random forests.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">autosklearn.classification</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">automl</span> <span class="o">=</span> <span class="n">autosklearn</span><span class="o">.</span><span class="n">classification</span><span class="o">.</span><span class="n">AutoSklearnClassifier</span><span class="p">(</span><span class="n">include_estimators</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;random_forest&quot;</span><span class="p">,</span> <span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>                           <span class="n">exclude_estimators</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_preprocessors</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;no_preprocessing&quot;</span><span class="p">,</span> <span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>                           <span class="n">exclude_preprocessors</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">automl</span> <span class="o">=</span> <span class="n">autosklearn</span><span class="o">.</span><span class="n">classification</span><span class="o">.</span><span class="n">AutoSklearnClassifier</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">include_estimators</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;random_forest&quot;</span><span class="p">,</span> <span class="p">],</span> <span class="n">exclude_estimators</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">include_preprocessors</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;no_preprocessing&quot;</span><span class="p">,</span> <span class="p">],</span> <span class="n">exclude_preprocessors</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="bp">cls</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">predictions</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
 </pre></div>
@@ -154,6 +191,17 @@ random forests.</p>
 <li><a class="reference external" href="https://github.com/automl/auto-sklearn/tree/master/autosklearn/pipeline/components/feature_preprocessing">Preprocessors</a></li>
 </ul>
 </div></blockquote>
+<div class="section" id="turning-of-preprocessing">
+<h3>Turning of preprocessing<a class="headerlink" href="#turning-of-preprocessing" title="Permalink to this headline">¶</a></h3>
+<p>Preprocessing in <em>auto-sklearn</em> is divided into data preprocessing and
+feature preprocessing. Data preprocessing includes One-Hot encoding of
+categorical features, imputation of missing values and the normalization of
+features or samples. These steps currently cannot be turned off. Feature
+preprocessing is a single transformer which implements for example feature
+selection or transformation of features into a different space (i.e. PCA).
+This can be turned off by setting
+<code class="docutils literal"><span class="pre">include_preprocessors=[&quot;no_preprocessing&quot;]</span></code> as shown in the example above.</p>
+</div>
 </div>
 <div class="section" id="resampling-strategies">
 <h2>Resampling strategies<a class="headerlink" href="#resampling-strategies" title="Permalink to this headline">¶</a></h2>
@@ -183,6 +231,20 @@ only use a single core at a time.</p>
 <p><em>auto-sklearn</em> is mostly a wrapper around scikit-learn. Therefore, it is
 possible to follow the <a class="reference external" href="http://scikit-learn.org/stable/modules/model_persistence.html#persistence-example">persistence example</a>
 from scikit-learn.</p>
+</div>
+<div class="section" id="vanilla-auto-sklearn">
+<h2>Vanilla auto-sklearn<a class="headerlink" href="#vanilla-auto-sklearn" title="Permalink to this headline">¶</a></h2>
+<p>In order to obtain <em>vanilla auto-sklearn</em> as used in <a class="reference external" href="https://papers.nips.cc/paper/5872-efficient-and-robust-automated-machine-learning">Efficient and Robust Automated Machine Learning</a>
+set <code class="docutils literal"><span class="pre">ensemble_size=1</span></code> and <code class="docutils literal"><span class="pre">initial_configurations_via_metalearning=0</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">autosklearn.classification</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">automl</span> <span class="o">=</span> <span class="n">autosklearn</span><span class="o">.</span><span class="n">classification</span><span class="o">.</span><span class="n">AutoSklearnClassifier</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">ensemble_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">initial_configurations_via_metalearning</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>An ensemble of size one will result in always choosing the current best model
+according to its performance on the validation set. Setting the initial
+configurations found by meta-learning to zero makes <em>auto-sklearn</em> use the
+regular SMAC algorithm for suggesting new hyperparameter configurations.</p>
 </div>
 </div>
 
